@@ -59,10 +59,29 @@ else:
 
 tests = sorted([file.split('.')[0] for file in os.listdir(dirName) if 'in' in file])
 
+ext = args["file"][args["file"].find('.'):]
+
+def getCommand(ext,test):
+    if ext==".cpp":
+        return "./a.out" + " < " + dirName + "/" + test + ".in > " + dirName + "/my" + test + ".out"
+    elif ext==".py":
+        return "python3 " + args["file"] + " < " + dirName + "/" + test + ".in > " + dirName + "/my" + test + ".out"
+
+commands = ""
+if ext ==".cpp":
+    command = "g++ " + args["file"] + " -std=c++17"
+    print("Compiling source code...")
+    os.system(command)
+elif ext==".py":
+    pass
+else:
+    print("[Error]: Language not supported!")
+    exit()
+
 for test in tests:
     print("\nRunning",test,"=>",end=" ")
-    command = "python3 " + args["file"] + " < " + dirName + "/" + test + ".in > " + dirName + "/my" + test + ".out" 
-    op  = os.system(command)
+    command = getCommand(ext,test)
+    op = os.system(command)
     expectedFile = open(dirName+'/'+test+'.out',"r")
     myresultFile = open(dirName+'/my'+test+'.out',"r")
     expected = expectedFile.read().strip()
