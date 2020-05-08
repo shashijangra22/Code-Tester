@@ -1,10 +1,11 @@
-n=int(input())
-curr = n%4
-if curr==0:
-    print(2,"A")
-elif curr==1:
-    print(0,"A")
-elif curr==2:
-    print(1,"B")
-else:
-    print(2,"A")
+# https://codeforces.com/problemset/problem/931/A
+
+def f(n):
+    return (n*(n+1))//2
+
+a=int(input())
+b=int(input())
+dist = abs(a-b)
+aMoves = (dist+1)//2
+bMoves = dist//2
+print(f(aMoves)+f(bMoves))
