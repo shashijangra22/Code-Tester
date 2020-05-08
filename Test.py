@@ -5,9 +5,20 @@ import sys
 import os
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-u","--url",help="Enter URL to the problem",required=True)
+ap.add_argument("-u","--url",help="Enter URL to the problem")
 ap.add_argument("-f","--file",help="Enter path of file to be tested",required=True)
 args = vars(ap.parse_args())
+
+def getUrlFromFile():
+    f = open(args["file"],"r")
+    URL = f.read().split('\n')[0]
+    f.close()
+    pos = URL.find("https")
+    if pos!=-1:
+        return URL[pos:]
+    return None
+
+args["url"] = args["url"] if args["url"] else getUrlFromFile()
 
 def getTests():
     inputs,outputs = [],[]
@@ -32,7 +43,11 @@ def getTests():
             f.write(outputs[ind])
     os.chdir("..")
 
-dirName = args["url"].split('/')[-1]+"test"
+try:
+    dirName = args["url"].split('/')[-1]+"test"
+except:
+    print("Invalid URL!")
+    exit()
 
 if os.path.exists(dirName):
     print("Directory already exists! Reading from Directory...")
@@ -48,8 +63,10 @@ for test in tests:
     print("\nRunning",test,"=>",end=" ")
     command = "python3 " + args["file"] + " < " + dirName + "/" + test + ".in > " + dirName + "/my" + test + ".out" 
     op  = os.system(command)
-    expected = open(dirName+'/'+test+'.out').read().strip()
-    myresult = open(dirName+'/my'+test+'.out').read().strip()
+    expectedFile = open(dirName+'/'+test+'.out',"r")
+    myresultFile = open(dirName+'/my'+test+'.out',"r")
+    expected = expectedFile.read().strip()
+    myresult = myresultFile.read().strip()
     if(expected==myresult):
         print("Passed!")
     else:
@@ -60,3 +77,5 @@ for test in tests:
         print(expected)
         print("\nMy Output\n")
         print(myresult)
+    expectedFile.close()
+    myresultFile.close()
