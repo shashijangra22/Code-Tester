@@ -1,15 +1,10 @@
-x,y,z = map(int,input().split())
-a,b,c = map(int,input().split())
-
-def solve(a,b,c,x,y,z):
-    if a < x:
-        return "NO"
-    a-=x
-    if a+b < y:
-        return "NO"
-    total = a+b+c
-    total-=y
-    if total < z:
-        return "NO"
-    return "YES"
-print(solve(a,b,c,x,y,z))
+n=int(input())
+curr = n%4
+if curr==0:
+    print(2,"A")
+elif curr==1:
+    print(0,"A")
+elif curr==2:
+    print(1,"B")
+else:
+    print(2,"A")

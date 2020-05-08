@@ -17,7 +17,7 @@ def getTests():
     def scrapeText(div):
         temp = str(div.find('pre'))
         temp = temp.replace("<pre>","").replace("</pre>","").replace("<br/>","\n")
-        return temp
+        return temp.strip()
 
     inputDiv = soup.find_all('div',{"class":"input"})
     outputDiv = soup.find_all('div',{"class":"output"})
@@ -42,7 +42,7 @@ else:
     os.chdir(dirName)
     getTests()
 
-tests = [file.split('.')[0] for file in os.listdir(dirName) if 'in' in file]
+tests = sorted([file.split('.')[0] for file in os.listdir(dirName) if 'in' in file])
 
 for test in tests:
     print("\nRunning",test,"=>",end=" ")
