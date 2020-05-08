@@ -4,4 +4,4 @@
 ## Languages Supported
 - Python3
 
-run `python3 Test.py -u <URL-of-problem> -f <path-to-your-code>`
+run `python3 Test.py -f <path-to-your-code> -u <URL-of-problem>(Optional)` 
